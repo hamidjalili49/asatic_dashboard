@@ -1,7 +1,6 @@
-// ignore_for_file: lines_longer_than_80_chars
-
 import 'package:asatic_dashboard/src/presentation/devices/bloc/new_device/new_device_bloc.dart';
 import 'package:asatic_dashboard/src/presentation/devices/pages/widget/device_config_view.dart';
+import 'package:asatic_dashboard/src/presentation/devices/pages/widget/queue_manage_view.dart';
 import 'package:asatic_dashboard/src/presentation/devices/pages/widget/router_config_view_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,159 +55,190 @@ class _NewDeviceDialogWidgetState extends State<NewDeviceDialogWidget> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12.r),
-                      child: ColoredBox(
-                        color: Colors.white,
-                        child: AnimatedContainer(
-                          width: 1.sw,
-                          height: currentPage == 3
-                              ? .39.sh
-                              : .39.sh + (currentPage * 0.15.sh),
-                          duration: Durations.short4,
-                          child: BlocBuilder<NewDeviceBloc, NewDeviceState>(
-                            bloc: NewDeviceBloc(),
-                            builder: (context, state) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    child: state.when(
-                                      loadInProgress: () {
-                                        return const SizedBox();
-                                      },
-                                      configRouter: () {
-                                        return Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 26.r,
-                                          ),
-                                          child: PageView.builder(
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemCount: dialogViewList.length,
-                                            controller: _pageController,
-                                            onPageChanged: (value) {
-                                              setState(() {
-                                                currentPage = value;
-                                              });
-                                            },
-                                            itemBuilder: (context, index) {
-                                              return dialogViewList[index];
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      configQueue: () {
-                                        return const SizedBox();
-                                      },
+                  Flexible(
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12.r),
+                        child: ColoredBox(
+                          color: Colors.white,
+                          child: AnimatedContainer(
+                            width: 1.sw,
+                            height: currentPage == 3
+                                ? .39.sh
+                                : .39.sh + (currentPage * 0.15.sh),
+                            duration: Durations.short4,
+                            child: BlocBuilder<NewDeviceBloc, NewDeviceState>(
+                              bloc: NewDeviceBloc(),
+                              builder: (context, state) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Expanded(
+                                      child: state.when(
+                                        loadInProgress: () {
+                                          return const SizedBox();
+                                        },
+                                        configRouter: () {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 26.r,
+                                            ),
+                                            child: PageView.builder(
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: dialogViewList.length,
+                                              controller: _pageController,
+                                              onPageChanged: (value) {
+                                                setState(() {
+                                                  currentPage = value;
+                                                });
+                                              },
+                                              itemBuilder: (context, index) {
+                                                return Stack(
+                                                  children: [
+                                                    dialogViewList[index],
+                                                    if (index == 2)
+                                                      Positioned(
+                                                        bottom: 0,
+                                                        height: 50,
+                                                        right: 0,
+                                                        left: 0,
+                                                        child: Container(
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            gradient:
+                                                                LinearGradient(
+                                                              begin: Alignment
+                                                                  .bottomCenter,
+                                                              end: Alignment
+                                                                  .topCenter,
+                                                              colors: [
+                                                                Colors.white,
+                                                                Colors.white10,
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                        configQueue: () {
+                                          return const SizedBox();
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 12.h),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 36.w,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            if (currentPage == 0) {
-                                              context.pop();
-                                            }
-                                            if (currentPage <
-                                                dialogViewList.length) {
-                                              _pageController.animateToPage(
-                                                currentPage - 1,
-                                                duration: Durations.short4,
-                                                curve: Curves.linear,
-                                              );
-                                            }
-                                          },
-                                          child: SizedBox(
-                                            height: 20.h,
-                                            child: Text(
-                                              currentPage > 0
-                                                  ? 'Previous'
-                                                  : ' Cancel  ',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall
-                                                  ?.copyWith(height: 1),
+                                    SizedBox(height: 12.h),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 36.w,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              if (currentPage == 0) {
+                                                context.pop();
+                                              }
+                                              if (currentPage <
+                                                  dialogViewList.length) {
+                                                _pageController.animateToPage(
+                                                  currentPage - 1,
+                                                  duration: Durations.short4,
+                                                  curve: Curves.linear,
+                                                );
+                                              }
+                                            },
+                                            child: SizedBox(
+                                              height: 20.h,
+                                              child: Text(
+                                                currentPage > 0
+                                                    ? 'Previous'
+                                                    : ' Cancel  ',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall
+                                                    ?.copyWith(height: 1),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          height: 8.h,
-                                          child: ListView.builder(
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: 4,
-                                            itemBuilder: (context, index) =>
-                                                Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: 2.w,
-                                              ),
-                                              child: AspectRatio(
-                                                aspectRatio:
-                                                    index == currentPage
-                                                        ? 16 / 9
-                                                        : 1,
-                                                child: AnimatedContainer(
-                                                  duration: Durations.short4,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                      100,
+                                          SizedBox(
+                                            height: 8.h,
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: 4,
+                                              itemBuilder: (context, index) =>
+                                                  Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 2.w,
+                                                ),
+                                                child: AspectRatio(
+                                                  aspectRatio:
+                                                      index == currentPage
+                                                          ? 16 / 9
+                                                          : 1,
+                                                  child: AnimatedContainer(
+                                                    duration: Durations.short4,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        100,
+                                                      ),
+                                                      color:
+                                                          index == currentPage
+                                                              ? Colors.black87
+                                                              : Colors.black38,
                                                     ),
-                                                    color: index == currentPage
-                                                        ? Colors.black87
-                                                        : Colors.black38,
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            if (currentPage <
-                                                dialogViewList.length) {
-                                              _pageController.animateToPage(
-                                                currentPage + 1,
-                                                duration: Durations.short4,
-                                                curve: Curves.linear,
-                                              );
-                                            }
-                                          },
-                                          child: SizedBox(
-                                            height: 20.h,
-                                            child: Text(
-                                              'Next',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleSmall
-                                                  ?.copyWith(
-                                                    height: 1,
-                                                  ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              if (currentPage <
+                                                  dialogViewList.length) {
+                                                _pageController.animateToPage(
+                                                  currentPage + 1,
+                                                  duration: Durations.short4,
+                                                  curve: Curves.linear,
+                                                );
+                                              }
+                                            },
+                                            child: SizedBox(
+                                              height: 20.h,
+                                              child: Text(
+                                                'Next',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall
+                                                    ?.copyWith(
+                                                      height: 1,
+                                                    ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 36.h),
-                                ],
-                              );
-                            },
+                                    SizedBox(height: 36.h),
+                                  ],
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -221,18 +251,5 @@ class _NewDeviceDialogWidgetState extends State<NewDeviceDialogWidget> {
         ),
       ),
     );
-  }
-}
-
-///
-class QueueManagerVew extends StatelessWidget {
-  ///
-  const QueueManagerVew({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(color: Colors.red);
   }
 }
